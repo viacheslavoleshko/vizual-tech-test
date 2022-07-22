@@ -17,11 +17,17 @@ class BookController extends Controller
      */
     public function index()
     {
-        // $books = Book::with('authors', 'publishers')->get();
         $publishers = Publisher::with('books')->paginate(2);
-
-
         return view('books.index', ['publishers' => $publishers]);
+    }
+
+    function fetch_data(Request $request)
+    {
+        if($request->ajax())
+        {
+            $publishers = Publisher::with('books')->paginate(2);
+            return view('includes._pagination_data', ['publishers' => $publishers])->render();
+        }
     }
 
     /**

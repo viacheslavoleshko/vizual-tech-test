@@ -19,3 +19,4 @@ Route::get('/', function () {
 });
 
 Route::resource('books', BookController::class)->except('show');
+Route::get('books/fetch_data', [BookController::class, 'fetch_data'])->name('books.fetch_data');
