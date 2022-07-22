@@ -15,8 +15,8 @@ class Publisher extends Model
         'name',
     ];
 
-    public function authors()
+    public function books()
     {
-        return $this->belongsToMany(Author::class);
+        return $this->belongsToMany(Book::class)->orderBy('name');
     }
 }

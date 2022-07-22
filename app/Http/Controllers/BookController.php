@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BookRequest;
+use App\Models\Author;
 use App\Models\Book;
+use App\Models\Publisher;
 use Illuminate\Http\Request;
 
 class BookController extends Controller
@@ -14,7 +17,11 @@ class BookController extends Controller
      */
     public function index()
     {
-        //
+        // $books = Book::with('authors', 'publishers')->get();
+        $publishers = Publisher::with('books')->paginate(2);
+
+
+        return view('books.index', ['publishers' => $publishers]);
     }
 
     /**
@@ -24,7 +31,9 @@ class BookController extends Controller
      */
     public function create()
     {
-        //
+        $authors = Author::all();
+        $publishers = Publisher::all();
+        return view('books.create', ['authors' => $authors ,'publishers' => $publishers]);
     }
 
     /**
@@ -33,20 +42,15 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(BookRequest $request)
     {
-        //
-    }
+        $validatedData = $request->validated();
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Book  $book
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Book $book)
-    {
-        //
+        $book = Book::create($validatedData);
+        $book->authors()->sync($validatedData['authors_list']);
+        $book->publishers()->sync($validatedData['publishers_list']);
+
+        return redirect()->route('books.index');
     }
 
     /**
@@ -57,7 +61,9 @@ class BookController extends Controller
      */
     public function edit(Book $book)
     {
-        //
+        $authors = Author::all();
+        $publishers = Publisher::all();
+        return view('books.edit', ['book' => $book, 'authors' => $authors ,'publishers' => $publishers]);
     }
 
     /**
@@ -67,9 +73,15 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Book $book)
+    public function update(BookRequest $request, Book $book)
     {
-        //
+        $validatedData = $request->validated();
+
+        $book->update($validatedData);
+        $book->authors()->sync($validatedData['authors_list']);
+        $book->publishers()->sync($validatedData['publishers_list']);
+
+        return redirect()->route('books.index');
     }
 
     /**
@@ -80,6 +92,7 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+        return redirect()->route('books.index');
     }
 }
