@@ -12,13 +12,14 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run() // php artisan migrate:refresh --seed || php artisan db:seed (запустить заполнение без очистки базы)
     {
-        // \App\Models\User::factory(10)->create();
-
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        $this->call([
+            AuthorsSeeder::class,
+            BooksSeeder::class,
+            PublishersSeeder::class,
+            AuthorBookSeeder::class,
+            BookPublisherSeeder::class,
+        ]);
     }
 }
