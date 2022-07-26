@@ -39,4 +39,12 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function test_user() // метод для фабрики состояния
+    {
+        return $this->state([
+            'name' => 'Test User',
+            'email' => 'test@laravel.test',
+        ]);
+    }
 }

@@ -10,6 +10,11 @@ use App\Http\Resources\BookResource;
 
 class ApiBookController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:api')->only('store', 'update', 'destroy');
+    }
+
     public function index()
     {
         $publishers = Publisher::with('books')->paginate(2);

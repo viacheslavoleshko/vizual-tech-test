@@ -18,5 +18,5 @@ Route::get('/', function () {
     return redirect('books');
 });
 
-Route::resource('books', BookController::class)->except('show');
+Route::resource('books', BookController::class)->only('index');
 Route::get('books/fetch_data', [BookController::class, 'fetch_data'])->name('books.fetch_data');

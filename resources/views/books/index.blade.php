@@ -1,10 +1,6 @@
 @extends('layout')
 
 @section('content')
-    <section class="content-header">
-        <a class="btn btn-success btn-sm" href="{{ route('books.create') }}">Create Book</a>
-    </section>
-
     <section class="content" id="books_table">
         @include('includes._pagination_data')
     </section>

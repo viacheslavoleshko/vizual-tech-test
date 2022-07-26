@@ -4,7 +4,6 @@
             <th>Name</th>
             <th>Authors</th>
             <th>Publisher</th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
@@ -21,17 +20,6 @@
                         @endforeach
                     </td>
                     <td>{{ $publisher->name }}</td>
-                    <td>
-                        <a class="btn btn-warning btn-sm" href="{{ route('books.edit', ['book' => $book->id]) }}">
-                            <i class="fas fa-pencil-alt"></i>Edit
-                        </a>
-                        <form method="POST" id="delete-form" action="{{ route('books.destroy', ['book' => $book->id]) }}" class="d-inline-block">
-                            @csrf
-                            @method('DELETE')
-
-                            <button type="submit" class="btn btn-danger btn-sm" ><i class="fas fa-trash"></i>Delete</button>
-                        </form>
-                    </td>
                 </tr>
             @endforeach
         @endforeach
@@ -42,7 +30,6 @@
             <th>Name</th>
             <th>Authors</th>
             <th>Publisher</th>
-            <th></th>
         </tr>
     </tfoot>
 </table>
