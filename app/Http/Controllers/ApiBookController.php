@@ -46,6 +46,7 @@ class ApiBookController extends Controller
 
     public function destroy(Book $book)
     {
-        if($book->delete()) return response(null, 204);
+        $book->delete();
+        return response()->noContent();
     }
 }

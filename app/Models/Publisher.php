@@ -15,6 +15,10 @@ class Publisher extends Model
         'name',
     ];
 
+    protected $hidden = [
+        'api_token',
+    ];
+
     public function books()
     {
         return $this->belongsToMany(Book::class)->orderBy('name');
