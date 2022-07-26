@@ -43,5 +43,4 @@ class ApiBookController extends Controller
     {
         if($book->delete()) return response(null, 204);
     }
-
 }

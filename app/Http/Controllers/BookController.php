@@ -28,8 +28,10 @@ class BookController extends Controller
     {
         if($request->ajax())
         {
-            $publishers = Publisher::with('books')->paginate(2);
-            return view('includes._pagination_data', ['publishers' => $publishers])->render();
+            $request = Request::create('/api/books', 'GET');
+            $response = Route::dispatch($request);
+
+            return view('includes._pagination_data', ['publishers' => $response])->render();
         }
     }
 
