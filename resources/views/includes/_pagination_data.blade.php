@@ -8,7 +8,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($publishers as $publisher)
+        @foreach ($publishers->getData()->data as $publisher)
             @foreach ($publisher->books as $book)
                 <tr>
                     <td>{{ $book->name }}</td>
@@ -22,10 +22,10 @@
                     </td>
                     <td>{{ $publisher->name }}</td>
                     <td>
-                        <a class="btn btn-warning btn-sm" href="{{ route('books.edit', ['book' => $book]) }}">
+                        <a class="btn btn-warning btn-sm" href="{{ route('books.edit', ['book' => $book->id]) }}">
                             <i class="fas fa-pencil-alt"></i>Edit
                         </a>
-                        <form method="POST" id="delete-form" action="{{ route('books.destroy', ['book' => $book]) }}" class="d-inline-block">
+                        <form method="POST" id="delete-form" action="{{ route('books.destroy', ['book' => $book->id]) }}" class="d-inline-block">
                             @csrf
                             @method('DELETE')
 
@@ -46,4 +46,4 @@
         </tr>
     </tfoot>
 </table>
-{!! $publishers->links() !!}
+{{-- {!! $publishers->links() !!} --}}

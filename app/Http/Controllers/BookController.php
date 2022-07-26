@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BookRequest;
-use App\Models\Author;
 use App\Models\Book;
+use App\Models\Author;
 use App\Models\Publisher;
 use Illuminate\Http\Request;
+use App\Http\Requests\BookRequest;
+use Illuminate\Support\Facades\Route;
 
 class BookController extends Controller
 {
@@ -17,8 +18,10 @@ class BookController extends Controller
      */
     public function index()
     {
-        $publishers = Publisher::with('books')->paginate(2);
-        return view('books.index', ['publishers' => $publishers]);
+        $request = Request::create('/api/books', 'GET');
+        $response = Route::dispatch($request);
+
+        return view('books.index', ['publishers' => $response]);
     }
 
     function fetch_data(Request $request)
@@ -48,13 +51,10 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BookRequest $request)
+    public function store(Request $request)
     {
-        $validatedData = $request->validated();
-
-        $book = Book::create($validatedData);
-        $book->authors()->sync($validatedData['authors_list']);
-        $book->publishers()->sync($validatedData['publishers_list']);
+        $request = Request::create('/api/books', 'POST', $request->all());
+        $response = Route::dispatch($request);
 
         return redirect()->route('books.index');
     }
@@ -79,13 +79,10 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function update(BookRequest $request, Book $book)
+    public function update(Request $request, Book $book)
     {
-        $validatedData = $request->validated();
-
-        $book->update($validatedData);
-        $book->authors()->sync($validatedData['authors_list']);
-        $book->publishers()->sync($validatedData['publishers_list']);
+        $request = Request::create('/api/books/' . $book->id, 'PUT', $request->all());
+        $response = Route::dispatch($request);
 
         return redirect()->route('books.index');
     }
@@ -98,7 +95,9 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        $book->delete();
+        $request = Request::create('/api/books/' . $book->id, 'DELETE');
+        $response = Route::dispatch($request);
+
         return redirect()->route('books.index');
     }
 }
