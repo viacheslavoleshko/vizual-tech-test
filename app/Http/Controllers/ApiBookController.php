@@ -35,6 +35,7 @@ class ApiBookController extends Controller
 
     public function update(BookRequest $request, Book $book)
     {
+        $this->authorize($book);
         $validatedData = $request->validated();
 
         $book->update($validatedData);
@@ -46,6 +47,7 @@ class ApiBookController extends Controller
 
     public function destroy(Book $book)
     {
+        $this->authorize($book);
         $book->delete();
         return response()->noContent();
     }

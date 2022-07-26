@@ -15,4 +15,4 @@ use App\Http\Controllers\ApiBookController;
 |
 */
 
-Route::apiResource('/books', ApiBookController::class)->except('show')->middleware('auth:api');
+Route::apiResource('/books', ApiBookController::class)->except('show');
