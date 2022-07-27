@@ -15,4 +15,8 @@ use App\Http\Controllers\ApiBookController;
 |
 */
 
+Route::fallback(function (){
+    abort(404, 'API resource not found');
+});
+
 Route::apiResource('/books', ApiBookController::class)->except('show');

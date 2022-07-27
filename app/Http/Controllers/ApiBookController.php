@@ -30,7 +30,7 @@ class ApiBookController extends Controller
         $book->authors()->sync($validatedData['authors_list']);
         $book->publishers()->sync($validatedData['publishers_list']);
 
-        return $book->load('authors', 'publishers');
+        return response()->json($book->load('authors', 'publishers'));
     }
 
     public function update(BookRequest $request, Book $book)
@@ -42,7 +42,7 @@ class ApiBookController extends Controller
         $book->authors()->sync($validatedData['authors_list']);
         $book->publishers()->sync($validatedData['publishers_list']);
 
-        return response()->json($book);
+        return response()->json($book->fresh()->load('publishers'));
     }
 
     public function destroy(Book $book)
